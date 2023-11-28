@@ -10,6 +10,7 @@
         "doctrine/doctrine-bundle": "^2.11",
         "doctrine/doctrine-migrations-bundle": "^3.3",
         "doctrine/orm": "^2.17",
+        "stof/doctrine-extensions-bundle": "^1.9",
         "symfony/console": "6.3.*",
         "symfony/dotenv": "6.3.*",
         "symfony/flex": "^2",
@@ -64,7 +65,7 @@
     },
     "extra": {
         "symfony": {
-            "allow-contrib": false,
+            "allow-contrib": true,
             "require": "6.3.*"
         }
     }

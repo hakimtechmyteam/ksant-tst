@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\CustomerRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 #[ORM\Entity(repositoryClass: CustomerRepository::class)]
 class Customer
@@ -25,6 +26,7 @@ class Customer
     #[ORM\Column(length: 255)]
     private ?string $gender = null;
 
+    #[Gedmo\Timestampable(on: 'create')]
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
