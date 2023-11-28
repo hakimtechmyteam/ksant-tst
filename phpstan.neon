@@ -1,0 +1,22 @@
+# configuration/phpstan.neon
+includes:
+    - /tools/.composer/vendor-bin/phpstan/vendor/phpstan/phpstan-symfony/extension.neon
+    - /tools/.composer/vendor-bin/phpstan/vendor/phpstan/phpstan-doctrine/extension.neon
+
+parameters:
+	symfony:
+		container_xml_path: ./var/cache/dev/App_KernelDevDebugContainer.xml
+		console_application_loader: ./console-loader.php
+	scanDirectories:
+	    - var/cache/dev/Symfony/Config
+	level: 5
+	paths:
+		- ./config
+		- ./src
+		- ./public/index.php
+	excludePaths:
+	    - ./phpunit.xml.dist
+	    - ./migrations
+	doctrine:
+		objectManagerLoader: doctrine-orm-bootstrap.php
+

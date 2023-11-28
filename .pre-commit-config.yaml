@@ -1,0 +1,18 @@
+repos:
+- repo: local
+  hooks:
+    - id: dependency-security-checker
+      name: Dependency Security Checker
+      language: docker_image
+      entry: jakzal/phpqa:php8.1-alpine sh -c "local-php-security-checker  --path=/src/composer.lock"
+      always_run: true
+    - id: php-cs-fixer
+      name: PHP Coding Standard Sniffer
+      language: docker_image
+      entry: jakzal/phpqa:php8.1-alpine sh -c "php-cs-fixer fix --config /src/.php-cs-fixer.php"
+      always_run: true
+    - id: phpstan
+      name: PHP Static Code Analysis (phpstan)
+      language: docker_image
+      entry: jakzal/phpqa:php8.1-alpine sh -c "phpstan analyse -c /src/phpstan.neon"
+      always_run: true

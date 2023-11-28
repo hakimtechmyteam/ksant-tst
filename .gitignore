@@ -1,0 +1,40 @@
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/var/
+/vendor/
+public/koolreport_assets/
+###< symfony/framework-bundle ###
+
+# Extension file
+*.php~
+*.DS_Store
+.DS_Store?
+
+###> phpStorm ###
+.idea/
+/nbproject/private/
+###< phpStorm ###
+
+###> friendsofphp/php-cs-fixer ###
+/.php-cs-fixer.php
+/.php-cs-fixer.cache
+/.phpunit.result.cache
+###< friendsofphp/php-cs-fixer ###
+
+docker-compose.override.yml
+.php-version
+node_modules/
+tools
+
+
+###> SonarQube ###
+/.scannerwork/
+/.sonar/
+sonar-project.properties
+coverage.xml
+execution-result.xml
+###< SonarQube ###
