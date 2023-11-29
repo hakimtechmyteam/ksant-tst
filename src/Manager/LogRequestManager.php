@@ -4,33 +4,41 @@ namespace App\Manager;
 
 use App\Entity\LogRequest;
 use App\Repository\LogRequestRepository;
+use Psr\Log\LoggerInterface;
 
 class LogRequestManager
 {
     public function __construct(
         private readonly LogRequestRepository $logRequestRepository,
+        private readonly LoggerInterface $logger
     ) {
     }
 
     public function getOrCreateLogRequest(string $endpointName, string $httpMethod): LogRequest
     {
-        try {
-            $logRequest = $this->logRequestRepository->findOneBy([
-                'endpoint' => $endpointName,
-                'httpMethod' => $httpMethod,
-            ]);
+        $logRequests = $this->logRequestRepository->findBy([
+            'endpoint' => $endpointName,
+            'httpMethod' => $httpMethod,
+        ]);
+        $countLogRequest = count($logRequests);
+        if ($countLogRequest > 1) {
+            $this->logger->warning(sprintf(
+                '[Create or update log request] More than one insert log for endpoint [%s] %s found',
+                $httpMethod,
+                $endpointName
+            ));
 
-            if (!$logRequest) {
-                $logRequest = new LogRequest();
-                $logRequest->setEndpoint($endpointName);
-                $logRequest->setHttpMethod($httpMethod);
-            }
-
-            return $logRequest;
-        } catch (\Exception $exception) {
-            // todo log warning more than one log for each endpoint
             return $this->unionRequests($endpointName, $httpMethod);
         }
+
+        if (0 === $countLogRequest) {
+            $logRequest = new LogRequest();
+            $logRequest->setEndpoint($endpointName);
+            $logRequest->setHttpMethod($httpMethod);
+            $this->logRequestRepository->save($logRequest, true);
+        }
+
+        return $logRequests[0];
     }
 
     public function increaseCount(LogRequest $logRequest): void
