@@ -58,7 +58,7 @@ class Customer
     #[ApiProperty(
         openapiContext: [
             'type' => 'string',
-            'enum' => [self::GENDER_MALE, self::GENDER_FEMALE],
+            'enum' => Customer::GENDERS,
             'example' => self::GENDER_MALE,
         ]
     )]
