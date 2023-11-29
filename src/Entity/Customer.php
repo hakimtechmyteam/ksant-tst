@@ -2,11 +2,25 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
+use App\Controller\GetCustomersController;
 use App\Repository\CustomerRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CustomerRepository::class)]
+#[ApiResource(
+    operations: [
+        new GetCollection(
+            controller: GetCustomersController::class,
+            normalizationContext: [
+                'groups' => ['customer:read'],
+            ],
+        ),
+    ],
+)]
 class Customer
 {
     #[ORM\Id]
@@ -15,15 +29,19 @@ class Customer
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['customer:read'])]
     private ?string $lastname = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['customer:read'])]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['customer:read'])]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['customer:read'])]
     private ?string $gender = null;
 
     #[Gedmo\Timestampable(on: 'create')]
