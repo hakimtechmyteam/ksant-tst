@@ -11,6 +11,6 @@ class GetCustomersController extends AbstractController
 {
     public function __invoke(CustomerRepository $customerRepository)
     {
-        return $customerRepository->findAll();
+        return $customerRepository->all();
     }
 }
