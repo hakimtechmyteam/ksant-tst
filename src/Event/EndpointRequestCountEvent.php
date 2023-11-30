@@ -7,18 +7,12 @@ use Symfony\Contracts\EventDispatcher\Event;
 class EndpointRequestCountEvent extends Event
 {
     public function __construct(
-        protected string $endpoint,
-        protected string $httpMethod,
+        protected string $key,
     ) {
     }
 
-    public function getEndpoint(): string
+    public function getKey(): string
     {
-        return $this->endpoint;
-    }
-
-    public function getHttpMethod(): string
-    {
-        return $this->httpMethod;
+        return $this->key;
     }
 }

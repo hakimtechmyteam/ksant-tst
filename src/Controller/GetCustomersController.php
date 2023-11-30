@@ -21,11 +21,10 @@ class GetCustomersController extends AbstractController
         LogRequestManager $logRequestManager,
     ) {
         $page = $request->get('page');
-        $routeName = $request->attributes->get('_route');
-        $httpMethod = $request->getMethod();
+        $key = 'customers';
 
-        $eventDispatcher->dispatch(new EndpointRequestCountEvent($routeName, $httpMethod));
-        $logRequest = $logRequestManager->getOrCreateLogRequest($routeName, $httpMethod);
+        $eventDispatcher->dispatch(new EndpointRequestCountEvent($key));
+        $logRequest = $logRequestManager->getOrCreateLogRequest($key);
 
         return new CustomersOutput($logRequest->getCount(), $customerRepository->all($page));
     }

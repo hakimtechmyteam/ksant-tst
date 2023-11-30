@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Entity\Customer;
+use App\Event\EndpointRequestCountEvent;
 use App\Repository\CustomerRepository;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -11,6 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuilder;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 // the name of the command is what users type after "php bin/console"
 #[AsCommand(name: 'app:display:customers', description: 'Display all customers information ')]
@@ -19,6 +21,7 @@ class CustomersCommand extends Command
     public function __construct(
         private readonly CustomerRepository $customerRepository,
         private readonly NormalizerInterface $normalizer,
+        private readonly EventDispatcherInterface $eventDispatcher,
     ) {
         parent::__construct();
     }
@@ -40,6 +43,7 @@ class CustomersCommand extends Command
                 );
             }
         }
+        $this->eventDispatcher->dispatch(new EndpointRequestCountEvent('customers'));
 
         return Command::SUCCESS;
     }

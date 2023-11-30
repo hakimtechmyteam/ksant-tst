@@ -22,10 +22,9 @@ class EndointRequest implements EventSubscriberInterface
 
     public function countRequest(EndpointRequestCountEvent $endpointRequestCountEvent): void
     {
-        $endpointName = $endpointRequestCountEvent->getEndpoint();
-        $httpMethod = $endpointRequestCountEvent->getHttpMethod();
+        $key = $endpointRequestCountEvent->getKey();
 
-        $logRequest = $this->logRequestManager->getOrCreateLogRequest($endpointName, $httpMethod);
+        $logRequest = $this->logRequestManager->getOrCreateLogRequest($key);
         $this->logRequestManager->increaseCount($logRequest);
     }
 }

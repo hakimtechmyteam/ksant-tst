@@ -13,11 +13,8 @@ class LogRequest
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $endpoint = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $httpMethod = null;
+    #[ORM\Column(length: 255, unique: true)]
+    private ?string $key = null;
 
     #[ORM\Column(options: ['default' => 0])]
     private ?int $count = 0;
@@ -27,26 +24,14 @@ class LogRequest
         return $this->id;
     }
 
-    public function getEndpoint(): ?string
+    public function getKey(): ?string
     {
-        return $this->endpoint;
+        return $this->key;
     }
 
-    public function setEndpoint(string $endpoint): static
+    public function setKey(string $key): static
     {
-        $this->endpoint = $endpoint;
-
-        return $this;
-    }
-
-    public function getHttpMethod(): ?string
-    {
-        return $this->httpMethod;
-    }
-
-    public function setHttpMethod(string $httpMethod): static
-    {
-        $this->httpMethod = $httpMethod;
+        $this->key = $key;
 
         return $this;
     }
