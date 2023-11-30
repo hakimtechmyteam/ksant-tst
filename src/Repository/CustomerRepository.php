@@ -29,10 +29,10 @@ class CustomerRepository extends ServiceEntityRepository
      *
      * @throws QueryException
      */
-    public function all(): Paginator|array
+    public function all(?int $page = null): Paginator|array
     {
         $qb = $this->createQueryBuilder('c');
 
-        return $this->collectionPaginator->getPaginator($qb);
+        return !is_null($page) ? $this->collectionPaginator->getPaginator($qb) : $qb->getQuery()->getResult();
     }
 }

@@ -20,12 +20,13 @@ class GetCustomersController extends AbstractController
         EventDispatcherInterface $eventDispatcher,
         LogRequestManager $logRequestManager,
     ) {
+        $page = $request->get('page');
         $routeName = $request->attributes->get('_route');
         $httpMethod = $request->getMethod();
 
         $eventDispatcher->dispatch(new EndpointRequestCountEvent($routeName, $httpMethod));
         $logRequest = $logRequestManager->getOrCreateLogRequest($routeName, $httpMethod);
 
-        return new CustomersOutput($logRequest->getCount(), $customerRepository->all());
+        return new CustomersOutput($logRequest->getCount(), $customerRepository->all($page));
     }
 }
